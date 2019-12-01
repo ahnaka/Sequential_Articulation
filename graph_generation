@@ -1,0 +1,53 @@
+// Andrew Nakamura
+// ArticulatePoint Generator
+
+#include <iostream> // cout
+#include <stdlib.h> // rand
+#include <string> // string, to_string
+#include <sstream>
+#include <list> // for list
+#include <vector> // for iterator
+
+using namespace std;
+
+int main(int argc, char* argv[]) {
+
+	// Generate n points
+	list<string> points;
+
+	int graph_length = atoi(argv[1]); // around 10000
+	int range = atoi(argv[2]); // around 3000
+	for (int i = 0; i < graph_length; i++) {
+		int start = rand() % range;
+		int end = rand() % range;
+
+		// re-roll end value
+		while (start == end) {
+			end = rand() % range;
+		}
+
+		// Creating the pair
+		stringstream s;
+		s << start;
+		stringstream e;
+		e << end;
+		string numS(s.str());
+		string numE(e.str());
+
+		points.push_back(numS + " " + numE);
+	}
+
+	// Remove duplicate values
+	points.sort();
+	points.unique();
+
+	// Create the end of the file
+	points.push_back("-1 -1");
+
+	// Read out the file
+	for (list<string>::iterator it = points.begin(); it != points.end(); ++it) {
+		cout << *it << endl;
+	}
+
+	return 0;
+}
